@@ -7,7 +7,6 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 
 from drf_rw_serializers.generics import ListAPIView
-
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
