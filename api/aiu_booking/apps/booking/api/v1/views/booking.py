@@ -1,8 +1,12 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
-from rest_framework.exceptions import APIException
 from rest_framework import status
+from rest_framework.exceptions import APIException
+
+from drf_rw_serializers.generics import ListAPIView
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 from aiu_booking.apps.booking.api.v1.serializers.booking import (
     BookingCreateSerializer,
@@ -14,13 +18,10 @@ from aiu_booking.apps.booking.utils.swagger.booking import booking_id_param
 
 from ._common import CoreCRUDAPIVIew
 
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
-
 
 class BookingAPIView(CoreCRUDAPIVIew):
-    read_serializer_class = BookingCreateSerializer
-    write_serializer_class = BookingSerializer
+    write_serializer_class = BookingCreateSerializer
+    read_serializer_class = BookingSerializer
 
     def get_object(self):
         booking_id = get_query_id(self.request, _("Booking"))
@@ -51,7 +52,7 @@ class BookingAPIView(CoreCRUDAPIVIew):
             )
         },
         request_body=BookingCreateSerializer,
-        tags=["facility"],
+        tags=["booking"],
     )
     def post(self, request, *args, **kwargs):
         return super(BookingAPIView, self).post(request, *args, **kwargs)
@@ -76,3 +77,26 @@ class BookingAPIView(CoreCRUDAPIVIew):
     )
     def delete(self, request, *args, **kwargs):
         return super(BookingAPIView, self).delete(request, *args, **kwargs)
+
+
+class BookingListAPIView(ListAPIView):
+    serializer_class = BookingSerializer
+    queryset = Booking.objects.all()
+
+    @swagger_auto_schema(tags=["booking"])
+    def get(self, request, *args, **kwargs):
+        return super(BookingListAPIView, self).get(request, *args, **kwargs)
+
+
+class BookingFacilityListAPIView(ListAPIView):
+    serializer_class = BookingSerializer
+
+    def get_queryset(self):
+        facility_id = self.kwargs["facility_id"]
+        return Booking.objects.filter(facility=facility_id)
+
+    @swagger_auto_schema(tags=["booking"])
+    def get(self, request, *args, **kwargs):
+        return super(BookingFacilityListAPIView, self).get(
+            request, *args, **kwargs
+        )

@@ -8,7 +8,7 @@ from .facility import FacilitySerializer
 class BookingCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
-        field = ["facility", "date", "start_time", "end_time"]
+        fields = ["facility", "date", "start_time", "end_time"]
 
 
 class BookingSerializer(serializers.ModelSerializer):
@@ -16,4 +16,4 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        field = ["id", "facility", "date", "start_time", "end_time"]
+        fields = ["id", "facility", "date", "start_time", "end_time"]
