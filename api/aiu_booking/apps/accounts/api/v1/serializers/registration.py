@@ -23,7 +23,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def validate_email(self, email):
         if UserAccount.objects.filter(email=email).exists():
-            raise ValidationError(gettext("Could not create account with this email."))
+            raise ValidationError(
+                gettext("Could not create account with this email.")
+            )
         return super().validate(email)
 
     def validate_password(self, new_password):

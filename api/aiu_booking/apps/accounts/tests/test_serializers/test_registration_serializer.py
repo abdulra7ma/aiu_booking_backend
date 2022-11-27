@@ -2,7 +2,9 @@ from rest_framework.exceptions import ValidationError
 
 import pytest
 
-from aiu_booking.apps.accounts.api.v1.serializers.registration import RegistrationSerializer
+from aiu_booking.apps.accounts.api.v1.serializers.registration import (
+    RegistrationSerializer,
+)
 from aiu_booking.apps.accounts.exceptions import InvalidPasswordError
 from aiu_booking.apps.accounts.models import UserAccount
 
@@ -25,7 +27,9 @@ def test_registration_serializer_validate_success(input_data):
 
 def test_registration_serializer_validate_password_success(mocker, input_data):
     serializer = RegistrationSerializer(data=input_data)
-    mocked_validate_password = mocker.patch.object(serializer.password_service, "validate_password")
+    mocked_validate_password = mocker.patch.object(
+        serializer.password_service, "validate_password"
+    )
 
     validated_password = serializer.validate_password(input_data["password"])
 
@@ -36,7 +40,9 @@ def test_registration_serializer_validate_password_success(mocker, input_data):
 def test_registration_serializer_validate_password_failure(mocker, input_data):
     serializer = RegistrationSerializer(data=input_data)
     mocked_validate_password = mocker.patch.object(
-        serializer.password_service, "validate_password", side_effect=[InvalidPasswordError("error")]
+        serializer.password_service,
+        "validate_password",
+        side_effect=[InvalidPasswordError("error")],
     )
 
     with pytest.raises(ValidationError):
@@ -46,7 +52,9 @@ def test_registration_serializer_validate_password_failure(mocker, input_data):
 
 
 @pytest.mark.django_db
-def test_registration_serializer_validate_email_success(user_account, input_data):
+def test_registration_serializer_validate_email_success(
+    user_account, input_data
+):
     user_account(email="john@example.com")
     serializer = RegistrationSerializer(data=input_data)
     validated_email = serializer.validate_email(input_data["email"])
@@ -54,7 +62,9 @@ def test_registration_serializer_validate_email_success(user_account, input_data
 
 
 @pytest.mark.django_db
-def test_registration_serializer_validate_email_failure(user_account, input_data):
+def test_registration_serializer_validate_email_failure(
+    user_account, input_data
+):
     user_account(email=input_data["email"])
     serializer = RegistrationSerializer(data=input_data)
     with pytest.raises(ValidationError):

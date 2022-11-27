@@ -1,7 +1,9 @@
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from aiu_booking.apps.accounts.api.v1.serializers.user_profile import UserProfileSerializer
+from aiu_booking.apps.accounts.api.v1.serializers.user_profile import (
+    UserProfileSerializer,
+)
 
 
 class UserProfileAPIView(RetrieveUpdateAPIView):

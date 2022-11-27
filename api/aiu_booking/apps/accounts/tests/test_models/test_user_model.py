@@ -100,7 +100,9 @@ def test_create_superuser_success():
 
     superuser_email = "admin@example.com"
     superuser_password = "super-secret-password"  # nosec
-    superuser = UserAccount.objects.create_superuser(superuser_email, superuser_password)
+    superuser = UserAccount.objects.create_superuser(
+        superuser_email, superuser_password
+    )
 
     assert UserAccount.objects.count() == 1
     assert UserAccount.objects.first() == superuser
@@ -146,15 +148,22 @@ def test_get_short_name(user_account, email):
 def test_get_full_name(user_account, first_name, last_name, email, expected):
     assert UserAccount.objects.count() == 0
 
-    user = user_account(first_name=first_name, last_name=last_name, email=email)
+    user = user_account(
+        first_name=first_name, last_name=last_name, email=email
+    )
 
     assert UserAccount.objects.count() == 1
     assert UserAccount.objects.first() == user
     assert user.get_student_id() == expected
 
 
-@pytest.mark.parametrize("first_name,last_name,expected", [("Jane", "Doe", "Jane Doe"), ("", "", "Dear client")])
+@pytest.mark.parametrize(
+    "first_name,last_name,expected",
+    [("Jane", "Doe", "Jane Doe"), ("", "", "Dear client")],
+)
 @pytest.mark.django_db
-def test_notification_salutation(user_account, first_name, last_name, expected):
+def test_notification_salutation(
+    user_account, first_name, last_name, expected
+):
     user = user_account(first_name=first_name, last_name=last_name)
     assert user.notification_salutation == expected

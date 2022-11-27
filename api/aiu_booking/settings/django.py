@@ -27,13 +27,11 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # 3rd party apps
     "rest_framework",
     "django_extensions",
     "django_filters",
     "drf_yasg",
-
     # our apps
     "aiu_booking.apps.common",
     "aiu_booking.apps.accounts",
@@ -70,23 +68,44 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "aiu_booking.wsgi.application"
 
-DATABASES = {"default": env.db("AIU_BOOKING_DATABASE_URL", default="psql://postgres:awesome_password_1@database:5432/aiu_booking_db")}
+DATABASES = {
+    "default": env.db(
+        "AIU_BOOKING_DATABASE_URL",
+        default="psql://postgres:awesome_password_1@database:5432/aiu_booking_db",
+    )
+}
 
 AUTH_USER_MODEL = "accounts.UserAccount"
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
+    },
 ]
 
-SECURE_BROWSER_XSS_FILTER = env.bool("AIU_BOOKING_SECURE_BROWSER_XSS_FILTER", default=True)
-SECURE_CONTENT_TYPE_NOSNIFF = env.bool("AIU_BOOKING_SECURE_CONTENT_TYPE_NOSNIFF", default=True)
-SESSION_COOKIE_HTTPONLY = env.bool("AIU_BOOKING_SESSION_COOKIE_HTTPONLY", default=True)
-SESSION_COOKIE_SECURE = env.bool("AIU_BOOKING_SESSION_COOKIE_SECURE", default=True)
+SECURE_BROWSER_XSS_FILTER = env.bool(
+    "AIU_BOOKING_SECURE_BROWSER_XSS_FILTER", default=True
+)
+SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
+    "AIU_BOOKING_SECURE_CONTENT_TYPE_NOSNIFF", default=True
+)
+SESSION_COOKIE_HTTPONLY = env.bool(
+    "AIU_BOOKING_SESSION_COOKIE_HTTPONLY", default=True
+)
+SESSION_COOKIE_SECURE = env.bool(
+    "AIU_BOOKING_SESSION_COOKIE_SECURE", default=True
+)
 CSRF_COOKIE_SECURE = env.bool("AIU_BOOKING_CSRF_COOKIE_SECURE", default=True)
 X_FRAME_OPTIONS = env.str("AIU_BOOKING_X_FRAME_OPTIONS", default="SAMEORIGIN")
-SECURE_HSTS_SECONDS = env.int("AIU_BOOKING_SECURE_HSTS_SECONDS", default=31536000)  # 1 year
+SECURE_HSTS_SECONDS = env.int(
+    "AIU_BOOKING_SECURE_HSTS_SECONDS", default=31536000
+)  # 1 year
 SESSION_COOKIE_NAME = "s"
 CSRF_COOKIE_NAME = "c"
 
@@ -98,13 +117,22 @@ USE_TZ = True
 LOCALE_PATHS = [rel("..", "..", "api", "locale")]
 
 STATIC_URL = env.str("AIU_BOOKING_STATIC_URL", default="/s/")
-STATIC_ROOT = env.str("AIU_BOOKING_STATIC_ROOT", default=rel("..", "..", "public", "static"))
+STATIC_ROOT = env.str(
+    "AIU_BOOKING_STATIC_ROOT", default=rel("..", "..", "public", "static")
+)
 
 MEDIA_URL = env.str("AIU_BOOKING_MEDIA_URL", default="/m/")
-MEDIA_ROOT = env.str("AIU_BOOKING_MEDIA_ROOT", rel("..", "..", "public", "media"))
+MEDIA_ROOT = env.str(
+    "AIU_BOOKING_MEDIA_ROOT", rel("..", "..", "public", "media")
+)
 
-EMAIL_BACKEND = env.str("AIU_BOOKING_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
-if EMAIL_BACKEND == "django.core.mail.backends.smtp.EmailBackend":  # pragma: no cover
+EMAIL_BACKEND = env.str(
+    "AIU_BOOKING_EMAIL_BACKEND",
+    default="django.core.mail.backends.smtp.EmailBackend",
+)
+if (
+    EMAIL_BACKEND == "django.core.mail.backends.smtp.EmailBackend"
+):  # pragma: no cover
     EMAIL_HOST = env.str("AIU_BOOKING_EMAIL_HOST")
     EMAIL_PORT = env.str("AIU_BOOKING_EMAIL_PORT")
     EMAIL_HOST_USER = env.str("AIU_BOOKING_EMAIL_HOST_USER")

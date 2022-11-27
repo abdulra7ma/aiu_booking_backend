@@ -18,7 +18,9 @@ class ChangePasswordAPIView(CreateAPIView):
     serializer_class = ChangePasswordSerializer
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(responses={status.HTTP_204_NO_CONTENT: openapi.Response("")})
+    @swagger_auto_schema(
+        responses={status.HTTP_204_NO_CONTENT: openapi.Response("")}
+    )
     def post(self, request, *args, **kwargs):  # pragma: no cover
         super().post(request, *args, **kwargs)
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -28,7 +30,9 @@ class ResetPasswordAPIView(CreateAPIView):
 
     serializer_class = ResetPasswordSerializer
 
-    @swagger_auto_schema(responses={status.HTTP_204_NO_CONTENT: openapi.Response("")})
+    @swagger_auto_schema(
+        responses={status.HTTP_204_NO_CONTENT: openapi.Response("")}
+    )
     def post(self, request, *args, **kwargs):  # pragma: no cover
         super().post(request, *args, **kwargs)
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -38,7 +42,9 @@ class ConfirmResetPasswordAPIView(CreateAPIView):
 
     serializer_class = ConfirmResetPasswordSerializer
 
-    @swagger_auto_schema(responses={status.HTTP_204_NO_CONTENT: openapi.Response("")})
+    @swagger_auto_schema(
+        responses={status.HTTP_204_NO_CONTENT: openapi.Response("")}
+    )
     def post(self, request, *args, **kwargs):  # pragma: no cover
         super().post(request, *args, **kwargs)
         return Response(status=status.HTTP_204_NO_CONTENT)

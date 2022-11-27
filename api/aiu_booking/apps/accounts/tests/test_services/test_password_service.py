@@ -15,7 +15,9 @@ from aiu_booking.apps.accounts.models import UserAccount
 from aiu_booking.apps.accounts.services.password import PasswordService
 
 
-PASSWORD_SERVICE_PATH = "aiu_booking.apps.accounts.services.password.PasswordService"  # nosec
+PASSWORD_SERVICE_PATH = (
+    "aiu_booking.apps.accounts.services.password.PasswordService"  # nosec
+)
 
 
 def test_change_password(user_account):
@@ -43,7 +45,10 @@ def test_check_password(user_account):
 
 
 def test_validate_password(mocker):
-    mocker.patch("django.contrib.auth.password_validation.validate_password", side_effect=ValidationError("exception"))
+    mocker.patch(
+        "django.contrib.auth.password_validation.validate_password",
+        side_effect=ValidationError("exception"),
+    )
 
     with pytest.raises(InvalidPasswordError):
         PasswordService.validate_password("SOME_PASSWORD")
@@ -53,14 +58,19 @@ def test_generate_reset_password_signature(user_account):
     user = user_account()
     expected_reset_password_signature = TimestampSigner().sign(user.pk)
 
-    assert PasswordService._generate_reset_password_signature(user) == expected_reset_password_signature
+    assert (
+        PasswordService._generate_reset_password_signature(user)
+        == expected_reset_password_signature
+    )
 
 
 def test_reset_password_success(user_account, mocker):
     new_password = "new_password_1234"  # nosec
     user = user_account()
     reset_password_signature = TimestampSigner().sign(user.pk)
-    mocked_change_password = mocker.patch(f"{PASSWORD_SERVICE_PATH}.change_password")
+    mocked_change_password = mocker.patch(
+        f"{PASSWORD_SERVICE_PATH}.change_password"
+    )
 
     PasswordService.reset_password(reset_password_signature, new_password)
 
@@ -72,9 +82,14 @@ def test_reset_password_success(user_account, mocker):
 def test_reset_password_signature_failure(mocker, settings, exception):
     new_password = "new_password_1234"  # nosec
     reset_password_signature = "reset_password_signature"  # nosec
-    mocker.patch("django.core.signing.TimestampSigner.unsign", side_effect=exception("Some message"))
+    mocker.patch(
+        "django.core.signing.TimestampSigner.unsign",
+        side_effect=exception("Some message"),
+    )
     settings.AIU_BOOKING_RESET_PASSWORD_EXPIRATION_DELTA = 42
-    mocked_change_password = mocker.patch(f"{PASSWORD_SERVICE_PATH}.change_password")
+    mocked_change_password = mocker.patch(
+        f"{PASSWORD_SERVICE_PATH}.change_password"
+    )
 
     with pytest.raises(InvalidResetPasswordSignatureError):
         PasswordService.reset_password(reset_password_signature, new_password)
@@ -87,7 +102,9 @@ def test_reset_password_user_failure(mocker):
     new_password = "new_password_1234"  # nosec
     assert UserAccount.objects.count() == 0
     reset_password_signature = TimestampSigner().sign(uuid.uuid4())
-    mocked_change_password = mocker.patch(f"{PASSWORD_SERVICE_PATH}.change_password")
+    mocked_change_password = mocker.patch(
+        f"{PASSWORD_SERVICE_PATH}.change_password"
+    )
 
     with pytest.raises(InvalidResetPasswordSignatureError):
         PasswordService.reset_password(reset_password_signature, new_password)
@@ -103,9 +120,12 @@ def test_send_reset_password_link_success(settings, user_account, mocker):
     site = Site.objects.create(domain=domain_name, name=domain_name)
     settings.SITE_ID = site.pk
     mocked_generate_reset_password_signature = mocker.patch(
-        f"{PASSWORD_SERVICE_PATH}._generate_reset_password_signature", return_value=signature
+        f"{PASSWORD_SERVICE_PATH}._generate_reset_password_signature",
+        return_value=signature,
     )
-    mocked_send_notification = mocker.patch(f"{PASSWORD_SERVICE_PATH}._send_notification")
+    mocked_send_notification = mocker.patch(
+        f"{PASSWORD_SERVICE_PATH}._send_notification"
+    )
 
     PasswordService.send_reset_password_link(user.email)
 
@@ -126,7 +146,9 @@ def test_send_reset_password_link_failure(mocker):
     mocked_generate_reset_password_signature = mocker.patch(
         f"{PASSWORD_SERVICE_PATH}._generate_reset_password_signature"
     )
-    mocked_send_notification = mocker.patch(f"{PASSWORD_SERVICE_PATH}._send_notification")
+    mocked_send_notification = mocker.patch(
+        f"{PASSWORD_SERVICE_PATH}._send_notification"
+    )
 
     PasswordService.send_reset_password_link("non-exisiting-user@example.com")
 

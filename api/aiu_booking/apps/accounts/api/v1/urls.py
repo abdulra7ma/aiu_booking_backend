@@ -6,8 +6,12 @@ from aiu_booking.apps.accounts.api.v1.views.password import (
     ConfirmResetPasswordAPIView,
     ResetPasswordAPIView,
 )
-from aiu_booking.apps.accounts.api.v1.views.registration import RegistrationAPIView
-from aiu_booking.apps.accounts.api.v1.views.user_profile import UserProfileAPIView
+from aiu_booking.apps.accounts.api.v1.views.registration import (
+    RegistrationAPIView,
+)
+from aiu_booking.apps.accounts.api.v1.views.user_profile import (
+    UserProfileAPIView,
+)
 
 
 urlpatterns = [
@@ -15,7 +19,15 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("me/", UserProfileAPIView.as_view(), name="user-profile"),
     path("password/", ChangePasswordAPIView.as_view(), name="change-password"),
-    path("password/confirm/", ConfirmResetPasswordAPIView.as_view(), name="confirm-reset-password"),
-    path("password/reset/", ResetPasswordAPIView.as_view(), name="reset-password"),
+    path(
+        "password/confirm/",
+        ConfirmResetPasswordAPIView.as_view(),
+        name="confirm-reset-password",
+    ),
+    path(
+        "password/reset/",
+        ResetPasswordAPIView.as_view(),
+        name="reset-password",
+    ),
     path("registration/", RegistrationAPIView.as_view(), name="registration"),
 ]

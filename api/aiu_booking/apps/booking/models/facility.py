@@ -1,6 +1,7 @@
 from django.db import models
-from aiu_booking.apps.common.models.core import CoreModel
 from django.utils.translation import gettext_lazy as _
+
+from aiu_booking.apps.common.models.core import CoreModel
 
 
 class Facility(CoreModel):

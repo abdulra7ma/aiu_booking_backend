@@ -8,11 +8,15 @@ from rest_framework.exceptions import ValidationError
 class LoginSerializer(serializers.Serializer):
 
     email = serializers.CharField(write_only=True, max_length=254)
-    password = serializers.CharField(max_length=128, style={"input_type": "password"}, write_only=True)
+    password = serializers.CharField(
+        max_length=128, style={"input_type": "password"}, write_only=True
+    )
 
     @staticmethod
     def _authenticate(email, password):
-        return django_authenticate(email=email, password=password)  # pragma: no cover
+        return django_authenticate(
+            email=email, password=password
+        )  # pragma: no cover
 
     def validate(self, attrs):
         user = self._authenticate(attrs.get("email"), attrs.get("password"))

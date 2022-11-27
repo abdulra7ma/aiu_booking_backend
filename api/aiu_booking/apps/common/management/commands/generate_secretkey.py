@@ -11,6 +11,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print(
             get_random_string(
-                length=options["length"], allowed_chars=string.ascii_letters + string.digits + string.punctuation
+                length=options["length"],
+                allowed_chars=string.ascii_letters
+                + string.digits
+                + string.punctuation,
             )
         )

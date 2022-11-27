@@ -11,8 +11,12 @@ from aiu_booking.apps.accounts.services.password import PasswordService
 
 class ChangePasswordSerializer(serializers.Serializer):
 
-    old_password = serializers.CharField(max_length=128, write_only=True, style={"input_type": "password"})
-    new_password = serializers.CharField(max_length=128, write_only=True, style={"input_type": "password"})
+    old_password = serializers.CharField(
+        max_length=128, write_only=True, style={"input_type": "password"}
+    )
+    new_password = serializers.CharField(
+        max_length=128, write_only=True, style={"input_type": "password"}
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -29,7 +33,9 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     def validate_new_password(self, new_password):
         try:
-            self.password_service.validate_password(new_password, user=self.user)
+            self.password_service.validate_password(
+                new_password, user=self.user
+            )
         except InvalidPasswordError as e:
             raise serializers.ValidationError(e.messages) from e
         return new_password
@@ -41,12 +47,16 @@ class ChangePasswordSerializer(serializers.Serializer):
         assert False, "Do not use update directly"
 
     def save(self, **kwargs):
-        self.password_service.change_password(self.user, self.validated_data["new_password"])
+        self.password_service.change_password(
+            self.user, self.validated_data["new_password"]
+        )
 
 
 class ConfirmResetPasswordSerializer(serializers.Serializer):
 
-    password = serializers.CharField(max_length=128, write_only=True, style={"input_type": "password"})
+    password = serializers.CharField(
+        max_length=128, write_only=True, style={"input_type": "password"}
+    )
     signature = serializers.CharField(max_length=71, write_only=True)
 
     def __init__(self, *args, **kwargs):

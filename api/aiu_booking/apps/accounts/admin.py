@@ -13,15 +13,34 @@ admin.site.unregister(Group)
 class UserAdmin(DjangoUserAdmin):
     fieldsets = (
         (None, {"fields": ("password",)}),
-        (gettext_lazy("Personal info"), {"fields": ("email", )}),
+        (gettext_lazy("Personal info"), {"fields": ("email",)}),
         (
             gettext_lazy("Permissions"),
-            {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")},
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
+            },
         ),
-        (gettext_lazy("Important dates"), {"fields": ("last_login", "date_joined")}),
+        (
+            gettext_lazy("Important dates"),
+            {"fields": ("last_login", "date_joined")},
+        ),
     )
-    add_fieldsets = ((None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),)
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("email", "password1", "password2"),
+            },
+        ),
+    )
     list_display = ("email", "is_staff", "is_active")
-    search_fields = ("email", )
+    search_fields = ("email",)
     ordering = ("email",)
     readonly_fields = ("email",)

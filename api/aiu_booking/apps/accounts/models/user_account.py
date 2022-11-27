@@ -1,4 +1,8 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
@@ -29,12 +33,18 @@ class UserManager(core_models.CoreManager, BaseUserManager):
 
 class UserAccount(PermissionsMixin, CoreModel, AbstractBaseUser):
 
-    email = models.EmailField(verbose_name=gettext_lazy("email address"), unique=True)
-    student_id = models.CharField(verbose_name=gettext_lazy("Student ID"), unique=True, max_length=128)
+    email = models.EmailField(
+        verbose_name=gettext_lazy("email address"), unique=True
+    )
+    student_id = models.CharField(
+        verbose_name=gettext_lazy("Student ID"), unique=True, max_length=128
+    )
     is_staff = models.BooleanField(
         gettext_lazy("staff status"),
         default=False,
-        help_text=gettext_lazy("Designates whether the user can log into this admin site."),
+        help_text=gettext_lazy(
+            "Designates whether the user can log into this admin site."
+        ),
     )
     is_active = models.BooleanField(
         gettext_lazy("active"),

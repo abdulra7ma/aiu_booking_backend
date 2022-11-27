@@ -12,4 +12,6 @@ if USE_SENTRY:  # pragma: no cover
         "environment": env.str("AIU_BOOKING_SENTRY_ENVIRONMENT"),
         "integrations": [DjangoIntegration()],
     }
-    sentry_sdk.init(**sentry_kwargs)  # pylint: disable=abstract-class-instantiated
+    sentry_sdk.init(
+        **sentry_kwargs
+    )  # pylint: disable=abstract-class-instantiated

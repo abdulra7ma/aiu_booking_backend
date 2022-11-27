@@ -12,13 +12,18 @@ from aiu_booking.apps.accounts.models import UserAccount
 def test_registration_api_success(unauthorized_api_client, mocker):
     assert UserAccount.objects.count() == 0
     mocked_response = Response(status=status.HTTP_204_NO_CONTENT)
-    mocked_login = mocker.patch("aiu_booking.apps.accounts.services.login.LoginService.login", return_value=mocked_response)
+    mocked_login = mocker.patch(
+        "aiu_booking.apps.accounts.services.login.LoginService.login",
+        return_value=mocked_response,
+    )
 
     data = {
         "email": "jane@example.com",
         "password": "super-secret-password",
     }  # nosec
-    response = unauthorized_api_client.post(reverse("api-v1-accounts:registration"), data)
+    response = unauthorized_api_client.post(
+        reverse("api-v1-accounts:registration"), data
+    )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
     assert response.data is None

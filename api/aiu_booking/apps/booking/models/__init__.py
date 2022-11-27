@@ -1,2 +1,2 @@
-from .facility import Facility
 from .booking import Booking
+from .facility import Facility

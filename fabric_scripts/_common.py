@@ -1,10 +1,19 @@
 import os
 
 
-__all__ = ["project_path", "print_success", "print_error", "print_warning", "fail", "config"]
+__all__ = [
+    "project_path",
+    "print_success",
+    "print_error",
+    "print_warning",
+    "fail",
+    "config",
+]
 
 
-_PROJECT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
+_PROJECT_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), os.pardir
+)
 
 
 def project_path(*args):
@@ -33,7 +42,11 @@ def fail(message: str) -> None:
 
 
 _PROJECT_NAME = "aiu_booking"
-_AVAILABLE_ENVIRONMENTS = ("develop", "beta", "production",)
+_AVAILABLE_ENVIRONMENTS = (
+    "develop",
+    "beta",
+    "production",
+)
 
 config = {
     "project_name": _PROJECT_NAME,

@@ -14,7 +14,10 @@ admin_urlpatterns = [
 api_v1_urlpatterns = [
     path(
         f"{API_PREFIX}/v1/accounts/",
-        include(("aiu_booking.apps.accounts.api.v1.urls", "accounts"), namespace="api-v1-accounts"),
+        include(
+            ("aiu_booking.apps.accounts.api.v1.urls", "accounts"),
+            namespace="api-v1-accounts",
+        ),
     )
 ]
 
@@ -40,7 +43,8 @@ if "SWAGGER" in settings.AIU_BOOKING_FEATURES:
 
     swagger_urlpatterns = [
         re_path(
-            f"{PLATFORM_PREFIX}/{DOCS_PREFIX}/v1/" + r"swagger(?P<format>\.json|\.yaml)$",
+            f"{PLATFORM_PREFIX}/{DOCS_PREFIX}/v1/"
+            + r"swagger(?P<format>\.json|\.yaml)$",
             api_v1_schema_view.without_ui(cache_timeout=0),
             name="v1-schema-json",
         ),
@@ -60,10 +64,16 @@ if "SWAGGER" in settings.AIU_BOOKING_FEATURES:
 
 # enable serve static by django for local develop
 if settings.DEBUG:  # pragma: no cover
-    from django.conf.urls.static import static  # pylint: disable=ungrouped-imports
+    from django.conf.urls.static import (
+        static,
+    )  # pylint: disable=ungrouped-imports
 
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )
+    urlpatterns += static(
+        settings.STATIC_URL, document_root=settings.STATIC_ROOT
+    )
 
 
 # enable debug_toolbar for local develop (if installed)
@@ -75,10 +85,18 @@ if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
 
 # enable Sentry check (by raising 500 on demand)
 if not settings.DEBUG:
-    from django.views.generic.base import View  # pylint: disable=ungrouped-imports
+    from django.views.generic.base import (
+        View,
+    )  # pylint: disable=ungrouped-imports
 
     class ServerErrorTestView(View):
         def dispatch(self, request, *args, **kwargs):
-            assert False, "Server error test: response with 500 HTTP status code"
+            assert (
+                False
+            ), "Server error test: response with 500 HTTP status code"
 
-    urlpatterns += [path(f"{PLATFORM_PREFIX}/500-error-test/", ServerErrorTestView.as_view())]
+    urlpatterns += [
+        path(
+            f"{PLATFORM_PREFIX}/500-error-test/", ServerErrorTestView.as_view()
+        )
+    ]
