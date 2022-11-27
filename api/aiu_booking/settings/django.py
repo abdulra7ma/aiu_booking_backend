@@ -27,14 +27,17 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # 3rd party apps
     "rest_framework",
     "django_extensions",
     "django_filters",
     "drf_yasg",
+
     # our apps
     "aiu_booking.apps.common",
     "aiu_booking.apps.accounts",
+    "aiu_booking.apps.booking",
 ] + env.list("AIU_BOOKING_DEV_INSTALLED_APPS", default=[])
 
 MIDDLEWARE = [
