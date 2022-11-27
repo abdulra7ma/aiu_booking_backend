@@ -18,7 +18,14 @@ api_v1_urlpatterns = [
             ("aiu_booking.apps.accounts.api.v1.urls", "accounts"),
             namespace="api-v1-accounts",
         ),
-    )
+    ),
+    path(
+        f"{API_PREFIX}/v1/facility",
+        include(
+            ("aiu_booking.apps.booking.api.v1.urls", "booking"),
+            namespace="api-v1-booking",
+        ),
+    ),
 ]
 
 urlpatterns = admin_urlpatterns + api_v1_urlpatterns
@@ -75,13 +82,11 @@ if settings.DEBUG:  # pragma: no cover
         settings.STATIC_URL, document_root=settings.STATIC_ROOT
     )
 
-
 # enable debug_toolbar for local develop (if installed)
 if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
     import debug_toolbar
 
     urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
-
 
 # enable Sentry check (by raising 500 on demand)
 if not settings.DEBUG:

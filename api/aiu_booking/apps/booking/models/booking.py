@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from aiu_booking.apps.common.models.core import CoreModel
 
 from .facility import Facility
+from django.utils import timezone
 
 
 class Booking(CoreModel):
@@ -16,7 +17,7 @@ class Booking(CoreModel):
         null=True,
     )
     date = models.DateField(
-        verbose_name=_("Booking date"), default=python_date.today()
+        verbose_name=_("Booking date"), default=timezone.now()
     )
     start_time = models.TimeField(verbose_name=_("Start time date"))
     end_time = models.TimeField(verbose_name=_("End time date"))

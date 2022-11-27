@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -8,6 +9,7 @@ from drf_yasg.utils import swagger_auto_schema
 from aiu_booking.apps.accounts.api.permissions import IsNotAuthenticated
 from aiu_booking.apps.accounts.api.v1.serializers.login import LoginSerializer
 from aiu_booking.apps.accounts.services.login import LoginService
+
 
 
 class LoginView(GenericAPIView):
@@ -26,7 +28,7 @@ class LoginView(GenericAPIView):
         return response
 
 
-class LogoutView(GenericAPIView):
+class LogoutView(APIView):
 
     permission_classes = [IsAuthenticated]
 
