@@ -10,13 +10,12 @@ from aiu_booking.apps.accounts.services.password import PasswordService
 
 class RegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(write_only=True, max_length=128)
+    student_id = serializers.CharField(write_only=True, max_length=128)
     password = serializers.CharField(write_only=True, max_length=128)
-    first_name = serializers.CharField(required=True, max_length=30)
-    last_name = serializers.CharField(required=True, max_length=30)
 
     class Meta:
         model = UserAccount
-        fields = ("email", "first_name", "last_name", "password")
+        fields = ("email", "student_id", "password")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

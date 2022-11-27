@@ -150,7 +150,7 @@ def test_get_full_name(user_account, first_name, last_name, email, expected):
 
     assert UserAccount.objects.count() == 1
     assert UserAccount.objects.first() == user
-    assert user.get_full_name() == expected
+    assert user.get_student_id() == expected
 
 
 @pytest.mark.parametrize("first_name,last_name,expected", [("Jane", "Doe", "Jane Doe"), ("", "", "Dear client")])

@@ -30,8 +30,7 @@ class UserManager(core_models.CoreManager, BaseUserManager):
 class UserAccount(PermissionsMixin, CoreModel, AbstractBaseUser):
 
     email = models.EmailField(verbose_name=gettext_lazy("email address"), unique=True)
-    first_name = models.CharField(verbose_name=gettext_lazy("first name"), max_length=150, blank=True)
-    last_name = models.CharField(verbose_name=gettext_lazy("last name"), max_length=150, blank=True)
+    student_id = models.CharField(verbose_name=gettext_lazy("Student ID"), unique=True, max_length=128)
     is_staff = models.BooleanField(
         gettext_lazy("staff status"),
         default=False,
@@ -51,26 +50,21 @@ class UserAccount(PermissionsMixin, CoreModel, AbstractBaseUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    class Meta:
-        ordering = ("first_name", "last_name")
-
     def __str__(self):
         return self.email
 
     def get_short_name(self) -> str:
         return str(self.email)
 
-    def get_full_name(self) -> str:
-        if self.first_name and self.last_name:
-            full_name = f"{self.first_name} {self.last_name} <{self.email}>"
-        else:
-            full_name = self.get_short_name()
-        return full_name
+    def get_student_id(self):
+        if not self.student_id:
+            return self.get_short_name()
+        return self.student_id
 
     @property
     def notification_salutation(self):
-        if self.first_name and self.last_name:
-            salutation = f"{self.first_name} {self.last_name}"
+        if self.student_id:
+            salutation = f"{self.student_id}"
         else:
             salutation = gettext_lazy("Dear client")
         return salutation
