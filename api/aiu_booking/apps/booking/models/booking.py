@@ -1,12 +1,12 @@
 from datetime import date as python_date
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from aiu_booking.apps.common.models.core import CoreModel
 
 from .facility import Facility
-from django.utils import timezone
 
 
 class Booking(CoreModel):

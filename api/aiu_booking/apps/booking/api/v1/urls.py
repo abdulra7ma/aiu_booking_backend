@@ -1,6 +1,8 @@
 from django.urls import path
 
-from aiu_booking.apps.booking.api.v1.views.facility import FacilityAPIView
+from aiu_booking.apps.booking.api.v1.views.facility import FacilityAPIView, FacilityImageUploadAPIView
 
 
-urlpatterns = [path("", FacilityAPIView.as_view(), name="facility")]
+urlpatterns = [path("", FacilityAPIView.as_view(), name="facility"),
+               path("/image", FacilityImageUploadAPIView.as_view(), name="facility-image")
+               ]

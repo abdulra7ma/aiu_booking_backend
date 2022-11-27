@@ -10,5 +10,5 @@ def get_query_id_param(desc):
         description=desc,
         type=openapi.TYPE_STRING,
         required=False,
-        defaultz=str(uuid4()),
+        default=str(uuid4()),
     )

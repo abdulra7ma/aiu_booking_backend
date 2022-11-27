@@ -11,9 +11,7 @@ from aiu_booking.apps.accounts.api.v1.serializers.login import LoginSerializer
 from aiu_booking.apps.accounts.services.login import LoginService
 
 
-
 class LoginView(GenericAPIView):
-
     permission_classes = [IsNotAuthenticated]
     serializer_class = LoginSerializer
 
