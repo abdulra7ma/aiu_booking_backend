@@ -30,7 +30,6 @@ class FacilityImageSerializer(serializers.ModelSerializer):
         return self.instance
 
 
-
 class FacilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Facility

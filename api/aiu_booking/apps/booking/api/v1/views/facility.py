@@ -3,38 +3,27 @@ from django.utils.translation import gettext_lazy as _
 
 from rest_framework import status
 from rest_framework.exceptions import APIException
-from drf_rw_serializers.generics import GenericAPIView
-from drf_rw_serializers.mixins import (
-    CreateModelMixin,
-    RetrieveModelMixin,
-    UpdateModelMixin,
-)
-from rest_framework.mixins import DestroyModelMixin
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.response import Response
+
+from drf_rw_serializers.generics import ListAPIView
 
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from aiu_booking.apps.booking.api.v1.serializers.facility import (
     FacilityCreateSerializer,
+    FacilityImageSerializer,
     FacilitySerializer,
-    FacilityImageSerializer
 )
 from aiu_booking.apps.booking.models.facility import Facility
 from aiu_booking.apps.booking.utils.request import get_query_id
 from aiu_booking.apps.booking.utils.swagger.facility import facility_id_param
 
-from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
+from ._common import CoreCRUDAPIVIew
 
 
-class CoreFacilityAPIVIew(
-    RetrieveModelMixin,
-    CreateModelMixin,
-    UpdateModelMixin,
-    DestroyModelMixin,
-    GenericAPIView,
-):
-
+class CoreFacilityAPIVIew(CoreCRUDAPIVIew):
     def get_object(self):
         facility_id = get_query_id(self.request, _("Facility"))
 
@@ -42,18 +31,6 @@ class CoreFacilityAPIVIew(
             return Facility.objects.get(id=facility_id)
         except ObjectDoesNotExist:
             raise APIException(_("Facility not found"))
-
-    def get(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        return super().update(request, *args, partial=True, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return super().destroy(request, *args, **kwargs)
 
 
 class FacilityAPIView(CoreFacilityAPIVIew):
@@ -117,7 +94,9 @@ class FacilityImageUploadAPIView(CoreFacilityAPIVIew):
         },
     )
     def get(self, request, *args, **kwargs):
-        return super(FacilityImageUploadAPIView, self).get(request, *args, **kwargs)
+        return super(FacilityImageUploadAPIView, self).get(
+            request, *args, **kwargs
+        )
 
     @swagger_auto_schema(
         manual_parameters=[facility_id_param],
@@ -134,7 +113,10 @@ class FacilityImageUploadAPIView(CoreFacilityAPIVIew):
         serializer = self.get_serializer(instance=facility, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.add_image()
-        return Response(FacilitySerializer(instance=facility).data, status=status.HTTP_201_CREATED)
+        return Response(
+            FacilitySerializer(instance=facility).data,
+            status=status.HTTP_201_CREATED,
+        )
 
     @swagger_auto_schema(
         manual_parameters=[facility_id_param],
@@ -151,7 +133,10 @@ class FacilityImageUploadAPIView(CoreFacilityAPIVIew):
         serializer = self.get_serializer(instance=facility, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.update_image()
-        return Response(FacilitySerializer(instance=facility).data, status=status.HTTP_200_OK)
+        return Response(
+            FacilitySerializer(instance=facility).data,
+            status=status.HTTP_200_OK,
+        )
 
     @swagger_auto_schema(
         manual_parameters=[facility_id_param], tags=["facility-image"]
@@ -160,3 +145,8 @@ class FacilityImageUploadAPIView(CoreFacilityAPIVIew):
         serializer = self.get_serializer(instance=self.get_object())
         serializer.delete_image()
         return Response(status=status.HTTP_200_OK)
+
+
+class FacilityListAPIView(ListAPIView):
+    queryset = Facility.objects.all()
+    serializer_class = FacilitySerializer
