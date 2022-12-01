@@ -31,7 +31,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: python-deps-v1-{{ checksum "api/requirements-dev.txt" }}
+          key: python-deps-v1-{{ checksum "app/requirements-dev.txt" }}
       - run:
           name: Install Python dependencies
           command: |
@@ -40,7 +40,7 @@ jobs:
             pip install -U pip
             pip install -r api/requirements-dev.txt
       - save_cache:
-          key: python-deps-v1-{{ checksum "api/requirements-dev.txt" }}
+          key: python-deps-v1-{{ checksum "app/requirements-dev.txt" }}
           paths:
             - ".env"
       - run:
@@ -79,7 +79,7 @@ jobs:
             ./api/manage.py collectstatic --no-input
             fab test.run
       - store_test_results:
-          path: ~/project/api/test-results
+          path: ~/project/app/test-results
 
 workflows:
   version: 2

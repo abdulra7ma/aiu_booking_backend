@@ -6,7 +6,7 @@ from ._common import project_path
 
 @task()
 def pip_compile(ctx):
-    with ctx.cd(project_path("api")):
+    with ctx.cd(project_path("app")):
         # TODO: Remove "-allow-unsafe" flag in future versions of pip-tools (when will be enabled by default)
         #   https://github.com/jazzband/pip-tools/#deprecations
         command_build = "pip-compile --upgrade --allow-unsafe --generate-hashes -o ./requirements-build.txt ./requirements-build.in"
@@ -17,7 +17,7 @@ def pip_compile(ctx):
 
 @task()
 def pip_sync(ctx):
-    with ctx.cd(project_path("api")):
+    with ctx.cd(project_path("app")):
         ctx.run("pip-sync ./requirements-dev.txt", pty=True, replace_env=False)
 
 

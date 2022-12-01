@@ -36,7 +36,7 @@ repos:
           - pycodestyle
           - pyflakes
           - radon
-        args: ['-o', './api/pylama.ini']
+        args: ['-o', './app/pylama.ini']
   - repo: https://github.com/PyCQA/bandit
     rev: master
     hooks:
@@ -55,7 +55,7 @@ repos:
       - id: python-safety-dependencies-check
         entry: safety
         args: [check]
-        files: ./api/requirements-build.txt
+        files: ./app/requirements-build.txt
   - repo: https://github.com/codespell-project/codespell
     rev: v2.1.0
     hooks:
@@ -65,6 +65,6 @@ repos:
       - id: migrations-check
         language: system
         name: Check for uncreated migrations.
-        entry: sh -c "./api/manage.py makemigrations --check --dry-run"
+        entry: sh -c "./app/manage.py makemigrations --check --dry-run"
         files: models/*.*\.py$
         stages: [commit]

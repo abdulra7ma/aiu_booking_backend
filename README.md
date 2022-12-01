@@ -44,13 +44,13 @@ fab pip.sync
 Copy initial settings for Django project:
 
 ```bash
-cp ./api/.env.example ./api/.env
+cp ./app/.env.example ./app/.env
 ```
 
 Generate `SECRET_KEY`:
 
 ```bash
-./api/manage.py generate_secret_key
+./app/manage.py generate_secret_key
 ```
 
 and write it to `./api/.env`:
@@ -68,7 +68,7 @@ fab compose.up -d
 Run migrations:
 
 ```bash
-./api/manage.py migrate
+./app/manage.py migrate
 ```
 
 Run Django server:

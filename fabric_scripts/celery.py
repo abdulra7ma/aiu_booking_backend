@@ -6,7 +6,7 @@ from ._common import project_path
 
 @task()
 def celery_all(ctx):
-    with ctx.cd(project_path("api")):
+    with ctx.cd(project_path("app")):
         ctx.run(
             "celery -A aiu_booking worker -l DEBUG --beat",
             pty=True,
@@ -16,7 +16,7 @@ def celery_all(ctx):
 
 @task()
 def celery_worker(ctx):
-    with ctx.cd(project_path("api")):
+    with ctx.cd(project_path("app")):
         ctx.run(
             "celery -A aiu_booking worker -l DEBUG",
             pty=True,
@@ -26,7 +26,7 @@ def celery_worker(ctx):
 
 @task()
 def celery_beat(ctx):
-    with ctx.cd(project_path("api")):
+    with ctx.cd(project_path("app")):
         ctx.run(
             "celery -A aiu_booking beat -l DEBUG", pty=True, replace_env=False
         )
@@ -34,7 +34,7 @@ def celery_beat(ctx):
 
 @task()
 def celery_clear_queue(ctx):
-    with ctx.cd(project_path("api")):
+    with ctx.cd(project_path("app")):
         ctx.run("celery -A aiu_booking purge -f", pty=True, replace_env=False)
 
 

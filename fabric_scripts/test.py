@@ -6,7 +6,7 @@ from ._common import project_path
 
 @task()
 def test_run(ctx, module=None):
-    with ctx.cd(project_path("api")):
+    with ctx.cd(project_path("app")):
         pytest_command_args = [
             "pytest",
             "--cache-clear",
@@ -56,13 +56,13 @@ def test_isort_apply(ctx):
 
 @task()
 def test_pylama(ctx):
-    with ctx.cd(project_path("api")):
+    with ctx.cd(project_path("app")):
         ctx.run("pylama", pty=True, replace_env=False)
 
 
 @task()
 def test_pylint(ctx):
-    with ctx.cd(project_path("api")):
+    with ctx.cd(project_path("app")):
         pylint_command_args = [
             "pylint",
             "--django-settings-module=aiu_booking.settings",
