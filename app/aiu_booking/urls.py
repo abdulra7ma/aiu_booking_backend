@@ -2,30 +2,55 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path, re_path
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
+
 
 PLATFORM_PREFIX = "_platform"
-API_PREFIX = "app"
+API_PREFIX = "api"
 DOCS_PREFIX = "docs"
 
 admin_urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
+token_v1_urlpatterns = [
+    path(
+        f"{API_PREFIX}/v1/token",
+        TokenObtainPairView.as_view(),
+        name="token_obtain_pair-v1",
+    ),
+    path(
+        f"{API_PREFIX}/v1/token/refresh",
+        TokenRefreshView.as_view(),
+        name="token_refresh-v1",
+    ),
+    path(
+        f"{API_PREFIX}/v1/token/verify",
+        TokenVerifyView.as_view(),
+        name="token_verify-v1",
+    ),
+]
+
 api_v1_urlpatterns = [
     path(
         f"{API_PREFIX}/v1/accounts/",
         include(
-            ("aiu_booking.apps.accounts.app.v1.urls", "accounts"),
-            namespace="app-v1-accounts",
+            ("aiu_booking.apps.accounts.api.v1.urls", "accounts"),
+            namespace="api-v1-accounts",
         ),
     ),
     path(
         f"{API_PREFIX}/v1/facility",
         include(
-            ("aiu_booking.apps.booking.app.v1.urls", "booking"),
-            namespace="app-v1-booking",
+            ("aiu_booking.apps.booking.api.v1.urls", "booking"),
+            namespace="api-v1-booking",
         ),
     ),
+    *token_v1_urlpatterns
 ]
 
 urlpatterns = admin_urlpatterns + api_v1_urlpatterns
