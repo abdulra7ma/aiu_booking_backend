@@ -7,18 +7,17 @@ from drf_yasg.utils import swagger_auto_schema
 from aiu_booking.apps.accounts.api.v1.serializers.registration import (
     RegistrationSerializer,
 )
-from aiu_booking.apps.accounts.services.login import LoginService
+from aiu_booking.apps.accounts.services.signup import SignUpService
 
 
-class RegistrationAPIView(GenericAPIView):
+class SignUpAPIView(GenericAPIView):
     serializer_class = RegistrationSerializer
+    authentication_classes = []
+    permission_classes = []
 
     @swagger_auto_schema(
         responses={status.HTTP_204_NO_CONTENT: openapi.Response("")}
     )
     def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        response = LoginService.login(request, user)
-        return response
+        service = SignUpService()
+        return service.signup(request, self.get_serializer_class())
