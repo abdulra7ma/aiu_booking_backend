@@ -7,7 +7,7 @@ from ._common import project_path
 def backend_run(ctx):
     with ctx.cd(project_path("app")):
         ctx.run(
-            "WERKZEUG_DEBUG_PIN=off python manage.py runserver_plus 127.0.0.1:8000",
+            "WERKZEUG_DEBUG_PIN=off python manage.py runserver_plus 0.0.0.0:8000",
             pty=True,
             replace_env=False,
         )
