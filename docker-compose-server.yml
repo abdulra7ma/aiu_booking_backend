@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:14-bullseye
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    container_name: db
+    expose:
+      - 5432
+    env_file:
+      - ./docker/env/.env.db.prod
+    networks:
+      - backend
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/DockerFile.prod
+    command: >
+      sh -c "cd ./app && gunicorn aiu_booking.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static_volume:/var/www/api.aiu_booking.com/api/public/static
+      - media_volume:/var/www/api.aiu_booking.com/api/public/media
+    expose:
+      - 8000
+    env_file:
+      - ./docker/env/.env.prod
+    depends_on:
+      - db
+    links:
+      - db:db
+    networks:
+      - backend
+
+  nginx:
+    build: ./docker/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/var/www/api.aiu_booking.com/api/public/static
+      - media_volume:/var/www/api.aiu_booking.com/api/public/media
+    depends_on:
+      - app
+    networks:
+      backend:
+        aliases:
+          - nginx
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

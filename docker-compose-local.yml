@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:14-bullseye
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    container_name: db
+    expose:
+      - 5432
+    env_file:
+      - ./docker/env/.env.db.dev
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/DockerFile.local
+    command: fab run
+    volumes:
+      - .:/var/www/api.aiu_booking.com/api/:z
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./docker/env/.env.dev
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
