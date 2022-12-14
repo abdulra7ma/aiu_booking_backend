@@ -4,8 +4,12 @@ from aiu_booking.apps.accounts.models import UserAccount
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    email = serializers.ReadOnlyField()
-
     class Meta:
         model = UserAccount
         fields = ("email", "student_id")
+
+
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAccount
+        fields = ("student_id", )

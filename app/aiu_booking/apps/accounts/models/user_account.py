@@ -37,7 +37,11 @@ class UserAccount(PermissionsMixin, CoreModel, AbstractBaseUser):
         verbose_name=gettext_lazy("email address"), unique=True
     )
     student_id = models.CharField(
-        verbose_name=gettext_lazy("Student ID"), unique=True, max_length=128
+        verbose_name=gettext_lazy("Student ID"),
+        unique=True,
+        max_length=128,
+        blank=True,
+        null=True,
     )
     is_staff = models.BooleanField(
         gettext_lazy("staff status"),
