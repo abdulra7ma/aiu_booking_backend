@@ -9,7 +9,7 @@ import pytest
 
 
 LOGIN_SERIALIZER_PATH = (
-    "aiu_booking.apps.accounts.app.v1.serializers.login.LoginSerializer"
+    "aiu_booking.apps.accounts.api.v1.serializers.login.LoginSerializer"
 )
 
 
