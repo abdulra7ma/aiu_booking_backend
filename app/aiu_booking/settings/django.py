@@ -2,7 +2,6 @@ from pathlib import Path
 
 from .environment import env
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -32,6 +31,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_filters",
     "drf_yasg",
+    "rest_framework_simplejwt.token_blacklist",
     # our apps
     "aiu_booking.apps.common",
     "aiu_booking.apps.accounts",
