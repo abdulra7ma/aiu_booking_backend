@@ -16,7 +16,7 @@ class SignUpService:
         serializer.save()
 
         # get serialized email data
-        email = serializer.data["email"]
+        email = serializer.validated_data["email"]
 
         # get the new created user and activate it
         user = get_user_by_email(email=email)
@@ -24,6 +24,8 @@ class SignUpService:
         # activate the new registered user
         # user.is_active = True
         # user.save()
+
+        print(user)
 
         # generate account access token
         refresh_token = RefreshToken.for_user(user)

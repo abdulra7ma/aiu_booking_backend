@@ -5,13 +5,13 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from aiu_booking.apps.accounts.api.v1.serializers.registration import (
-    RegistrationSerializer,
+    SignUpSerializer,
 )
 from aiu_booking.apps.accounts.services.signup import SignUpService
 
 
 class SignUpAPIView(GenericAPIView):
-    serializer_class = RegistrationSerializer
+    serializer_class = SignUpSerializer
     authentication_classes = []
     permission_classes = []
 

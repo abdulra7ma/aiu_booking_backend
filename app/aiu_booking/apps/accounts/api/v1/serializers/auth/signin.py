@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 
-class LoginSerializer(serializers.Serializer):
+class SignInSerializer(serializers.Serializer):
 
     email = serializers.CharField(write_only=True, max_length=254)
     password = serializers.CharField(
