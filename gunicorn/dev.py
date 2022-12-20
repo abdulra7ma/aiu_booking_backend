@@ -10,7 +10,7 @@ wsgi_app = "wsgi:application"
 workers = multiprocessing.cpu_count() * 2 + 1
 
 # The socket to bind
-bind = "0.0.0.0:8000"
+bind = "0.0.0.0:7654"
 
 # Write access and error info to /var/log
 accesslog = "/var/log/gunicorn/access.log"

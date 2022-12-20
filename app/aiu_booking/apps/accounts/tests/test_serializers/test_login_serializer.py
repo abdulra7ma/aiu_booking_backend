@@ -2,7 +2,7 @@ from rest_framework.exceptions import ValidationError
 
 import pytest
 
-from aiu_booking.apps.accounts.api.v1.serializers.login import LoginSerializer
+from aiu_booking.apps.accounts.api.v1.serializers.auth.signin import SignInSerializer
 
 
 @pytest.mark.django_db
@@ -12,7 +12,7 @@ def test_login_serializer_validate_success(user_account):
     user = user_account(email=email)
     user.set_password(password)
     user.save(update_fields=("password",))
-    serializer = LoginSerializer()
+    serializer = SignInSerializer()
 
     result = serializer.validate({"email": email, "password": password})
     assert result == {"user": user}
@@ -25,7 +25,7 @@ def test_login_serializer_validate_failure(user_account):
     user = user_account(email=email)
     user.set_password(password)
     user.save(update_fields=("password",))
-    serializer = LoginSerializer()
+    serializer = SignInSerializer()
 
     with pytest.raises(ValidationError):
         serializer.validate({"email": email, "password": "incorrect"})

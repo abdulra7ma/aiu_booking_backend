@@ -10,6 +10,8 @@ services:
       - 5432
     env_file:
       - ./docker/env/.env.db.dev
+    networks:
+      - front_default
 
   app:
     build:
@@ -19,11 +21,17 @@ services:
     volumes:
       - .:/var/www/api.aiu_booking.com/api/:z
     ports:
-      - "8000:8000"
+      - "7654:7654"
     env_file:
       - ./docker/env/.env.dev
     depends_on:
       - db
+    networks:
+        - front_default
 
 volumes:
   postgres_data:
+
+networks:
+  front_default:
+    external: true

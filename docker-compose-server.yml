@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: ./docker/DockerFile.prod
     command: >
-      sh -c "cd ./app && gunicorn aiu_booking.wsgi:application --bind 0.0.0.0:8000"
+      sh -c "cd ./app && gunicorn aiu_booking.wsgi:application --bind 0.0.0.0:5000"
     volumes:
       - static_volume:/var/www/api.aiu_booking.com/api/public/static
       - media_volume:/var/www/api.aiu_booking.com/api/public/media

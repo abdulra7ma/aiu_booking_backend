@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 import pytest
 
 from aiu_booking.apps.accounts.api.v1.serializers.registration import (
-    RegistrationSerializer,
+    SignUpSerializer,
 )
 from aiu_booking.apps.accounts.exceptions import InvalidPasswordError
 from aiu_booking.apps.accounts.models import UserAccount
@@ -20,13 +20,13 @@ def input_data():
 
 
 def test_registration_serializer_validate_success(input_data):
-    serializer = RegistrationSerializer(data=input_data)
+    serializer = SignUpSerializer(data=input_data)
     data = serializer.validate(input_data)
     assert data == input_data
 
 
 def test_registration_serializer_validate_password_success(mocker, input_data):
-    serializer = RegistrationSerializer(data=input_data)
+    serializer = SignUpSerializer(data=input_data)
     mocked_validate_password = mocker.patch.object(
         serializer.password_service, "validate_password"
     )
@@ -38,7 +38,7 @@ def test_registration_serializer_validate_password_success(mocker, input_data):
 
 
 def test_registration_serializer_validate_password_failure(mocker, input_data):
-    serializer = RegistrationSerializer(data=input_data)
+    serializer = SignUpSerializer(data=input_data)
     mocked_validate_password = mocker.patch.object(
         serializer.password_service,
         "validate_password",
@@ -56,7 +56,7 @@ def test_registration_serializer_validate_email_success(
     user_account, input_data
 ):
     user_account(email="john@example.com")
-    serializer = RegistrationSerializer(data=input_data)
+    serializer = SignUpSerializer(data=input_data)
     validated_email = serializer.validate_email(input_data["email"])
     assert validated_email == input_data["email"]
 
@@ -66,7 +66,7 @@ def test_registration_serializer_validate_email_failure(
     user_account, input_data
 ):
     user_account(email=input_data["email"])
-    serializer = RegistrationSerializer(data=input_data)
+    serializer = SignUpSerializer(data=input_data)
     with pytest.raises(ValidationError):
         serializer.validate_email(input_data["email"])
 
@@ -75,7 +75,7 @@ def test_registration_serializer_validate_email_failure(
 def test_registration_serializer_save_success(input_data):
     assert UserAccount.objects.count() == 0
 
-    serializer = RegistrationSerializer(data=input_data)
+    serializer = SignUpSerializer(data=input_data)
     serializer.is_valid()
     user = serializer.save()
 
