@@ -1,12 +1,11 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
-
-from rest_framework import status
-from rest_framework.exceptions import APIException
-
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_rw_serializers.generics import ListAPIView
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status
+from rest_framework.exceptions import APIException
 
 from aiu_booking.apps.booking.api.v1.serializers.booking import (
     BookingCreateSerializer,
@@ -15,7 +14,6 @@ from aiu_booking.apps.booking.api.v1.serializers.booking import (
 from aiu_booking.apps.booking.models.booking import Booking
 from aiu_booking.apps.booking.utils.request import get_query_id
 from aiu_booking.apps.booking.utils.swagger.booking import booking_id_param
-
 from ._common import CoreCRUDAPIVIew
 
 
@@ -82,14 +80,27 @@ class BookingAPIView(CoreCRUDAPIVIew):
 class BookingListAPIView(ListAPIView):
     serializer_class = BookingSerializer
     queryset = Booking.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["date"]
+    ordering = ['-start_time']
+    authentication_classes = []
+    permission_classes = []
 
     @swagger_auto_schema(tags=["booking"])
     def get(self, request, *args, **kwargs):
         return super(BookingListAPIView, self).get(request, *args, **kwargs)
 
+    def get_queryset(self):
+        queryset = super(BookingListAPIView, self).get_queryset()
+        return queryset
+
 
 class BookingFacilityListAPIView(ListAPIView):
     serializer_class = BookingSerializer
+    filterset_fields = ["date", "start_time"]
+    ordering = ['-date']
+    authentication_classes = []
+    permission_classes = []
 
     def get_queryset(self):
         facility_id = self.kwargs["facility_id"]

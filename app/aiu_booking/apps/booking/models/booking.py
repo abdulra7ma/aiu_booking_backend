@@ -16,8 +16,14 @@ class Booking(CoreModel):
         on_delete=models.SET_NULL,
         null=True,
     )
+    title = models.CharField(verbose_name=_("Booking Title"), max_length=1048, null=True, blank=True)
     date = models.DateField(
         verbose_name=_("Booking date"), default=timezone.now()
     )
     start_time = models.TimeField(verbose_name=_("Start time date"))
     end_time = models.TimeField(verbose_name=_("End time date"))
+
+    def __str__(self):
+        if self.facility:
+            return str(self.facility.pk) + " -> " + self.title
+        return self.title
