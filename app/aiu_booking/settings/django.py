@@ -11,9 +11,11 @@ def rel(*path):
 
 DEBUG = env.bool("AIU_BOOKING_DEBUG", default=False)
 
-INTERNAL_IPS = env.list("AIU_BOOKING_INTERNAL_IPS", default=[])
+INTERNAL_IPS = env.list("AIU_BOOKING_INTERNAL_IPS", default=["*"])
 
 ALLOWED_HOSTS = env.list("AIU_BOOKING_ALLOWED_HOSTS", default=[])
+
+print(ALLOWED_HOSTS)
 
 SECRET_KEY = env.str("AIU_BOOKING_SECRET_KEY")
 
@@ -31,6 +33,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_filters",
     "drf_yasg",
+    "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
     # our apps
     "aiu_booking.apps.common",
@@ -41,6 +44,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -147,3 +151,9 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 APPEND_SLASH = False
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8001",
+    "http://127.0.0.1:7654",
+]

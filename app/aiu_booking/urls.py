@@ -50,7 +50,7 @@ api_v1_urlpatterns = [
             namespace="api-v1-booking",
         ),
     ),
-    *token_v1_urlpatterns
+    *token_v1_urlpatterns,
 ]
 
 urlpatterns = admin_urlpatterns + api_v1_urlpatterns

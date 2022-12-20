@@ -77,6 +77,16 @@ class FacilityAPIView(CoreFacilityAPIVIew):
     def delete(self, request, *args, **kwargs):
         return super(FacilityAPIView, self).delete(request, *args, **kwargs)
 
+    def get_authenticators(self):
+        if self.request.method in ["GET"]:
+            return []
+        return super(FacilityAPIView, self).get_authenticators()
+
+    def get_permissions(self):
+        if self.request.method in ["GET"]:
+            return []
+        return super(FacilityAPIView, self).get_permissions()
+
 
 class FacilityImageUploadAPIView(CoreFacilityAPIVIew):
     serializer_class = FacilityImageSerializer
@@ -109,7 +119,7 @@ class FacilityImageUploadAPIView(CoreFacilityAPIVIew):
     )
     def post(self, request, *args, **kwargs):
         facility = self.get_object()
-        serializer = self.get_serializer(instance=facility, data=request.data)
+        serializer = self.get_serializer(instance=facility, data=request.FILES)
         serializer.is_valid(raise_exception=True)
         serializer.add_image()
         return Response(
@@ -149,3 +159,5 @@ class FacilityImageUploadAPIView(CoreFacilityAPIVIew):
 class FacilityListAPIView(ListAPIView):
     queryset = Facility.objects.all()
     serializer_class = FacilitySerializer
+    authentication_classes = []
+    permission_classes = []
