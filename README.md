@@ -4,7 +4,7 @@
 
 ### List of services: ###
 
-* Dev server: [https://api.aiu_booking.com/](https://api.aiu_booking.com/)
+* Dev server: [https://api.aiu_booking.com/](http://ec2-13-231-111-250.ap-northeast-1.compute.amazonaws.com/)
 
 ### Documentation: ###
 
@@ -14,10 +14,9 @@
 
 ### API documentation: ###
 
-* ReDoc web UI: [https://api.aiu_booking.com/_platform/docs/v1/redoc/](https://api.aiu_booking.com/_platform/docs/v1/redoc/)
-* Swagger web UI: [https://api.aiu_booking.com/_platform/docs/v1/swagger/](https://api.aiu_booking.com/_platform/docs/v1/swagger/)
-* Swagger JSON: [https://api.aiu_booking.com/_platform/docs/v1/swagger.json](https://api.aiu_booking.com/_platform/docs/v1/swagger.json)
-* Swagger YAML: [https://api.aiu_booking.com/_platform/docs/v1/swagger.yaml](https://api.aiu_booking.com/_platform/docs/v1/swagger.yaml)
+* Swagger web UI: [https://api.aiu_booking.com/_platform/docs/v1/swagger/](http://ec2-13-231-111-250.ap-northeast-1.compute.amazonaws.com_platform/docs/v1/swagger/)
+* Swagger JSON: [https://api.aiu_booking.com/_platform/docs/v1/swagger.json]([http://ec2-13-231-111-250.ap-northeast-1.compute.amazonaws.com/_platform/docs/v1/swagger.json)
+* Swagger YAML: [https://api.aiu_booking.com/_platform/docs/v1/swagger.yaml](http://ec2-13-231-111-250.ap-northeast-1.compute.amazonaws.com/_platform/docs/v1/swagger.yaml)
 
 ### First run: ###
 
